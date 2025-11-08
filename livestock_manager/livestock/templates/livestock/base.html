@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livestock Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="{% url 'dashboard' %}" class="font-bold">Livestock Manager</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="mr-4">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="mr-4">Login</a>
+                    <a href="{% url 'register' %}" class="mr-4">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-8">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

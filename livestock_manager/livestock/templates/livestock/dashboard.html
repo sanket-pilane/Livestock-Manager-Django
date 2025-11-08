@@ -1,0 +1,36 @@
+
+{% extends 'livestock/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+    <a href="{% url 'livestock_add' %}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 mb-4 inline-block">Add Livestock</a>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Animal Name</th>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Type</th>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Breed</th>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Age</th>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Health Status</th>
+                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                {% for item in livestock %}
+                    <tr>
+                        <td class="w-1/6 py-3 px-4">{{ item.animal_name }}</td>
+                        <td class="w-1/6 py-3 px-4">{{ item.animal_type }}</td>
+                        <td class="w-1/6 py-3 px-4">{{ item.breed }}</td>
+                        <td class="w-1/6 py-3 px-4">{{ item.age }}</td>
+                        <td class="w-1/6 py-3 px-4">{{ item.health_status }}</td>
+                        <td class="w-1/6 py-3 px-4">
+                            <a href="{% url 'livestock_edit' item.id %}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                            <a href="{% url 'livestock_delete' item.id %}" class="text-red-500 hover:text-red-700 ml-4">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
