@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Livestock, Owner
 
-# Register your models here.
+admin.site.register(Livestock)
+admin.site.register(Owner)

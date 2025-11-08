@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
-from .models import Livestock
+from .models import Livestock, Owner
 from .forms import CustomUserCreationForm, LivestockForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -38,7 +38,7 @@ def user_logout(request):
 
 @login_required
 def dashboard(request):
-    livestock = Livestock.objects.filter(owner=request.user)
+    livestock = Livestock.objects.all()
     return render(request, 'livestock/dashboard.html', {'livestock': livestock})
 
 class LivestockCreateView(LoginRequiredMixin, CreateView):
@@ -47,15 +47,21 @@ class LivestockCreateView(LoginRequiredMixin, CreateView):
     template_name = 'livestock/livestock_form.html'
     success_url = reverse_lazy('dashboard')
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['owners'] = Owner.objects.all()
+        return context
 
 class LivestockUpdateView(LoginRequiredMixin, UpdateView):
     model = Livestock
     form_class = LivestockForm
     template_name = 'livestock/livestock_form.html'
     success_url = reverse_lazy('dashboard')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['owners'] = Owner.objects.all()
+        return context
 
 class LivestockDeleteView(LoginRequiredMixin, DeleteView):
     model = Livestock

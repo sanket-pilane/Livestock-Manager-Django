@@ -3,11 +3,19 @@
 
 {% block content %}
     <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6">Add Livestock</h2>
+        <h2 class="text-2xl font-bold mb-6">{% if form.instance.pk %}Edit Livestock{% else %}Add Livestock{% endif %}</h2>
         <form method="post">
             {% csrf_token %}
+            <div class="mb-4">
+                <label for="id_owner" class="block text-gray-700 font-bold mb-2">Owner</label>
+                <select id="id_owner" name="owner" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    {% for owner in owners %}
+                        <option value="{{ owner.pk }}" {% if form.instance.owner_id == owner.pk %}selected{% endif %}>{{ owner.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             {{ form.as_p }}
-            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Add Livestock</button>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">{% if form.instance.pk %}Update Livestock{% else %}Add Livestock{% endif %}</button>
         </form>
     </div>
 {% endblock %}
